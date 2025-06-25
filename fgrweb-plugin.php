@@ -17,7 +17,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
  * Plugin Name:       F.GR Plugin Boilerplate
  * Plugin URI:        https://fgrweb.es
  * Description:       Custom plugin
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Fernando Garcia Rebolledo
  * Author URI:        https://fgrweb.es/
  * License:           GPL-2.0+

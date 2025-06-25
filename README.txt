@@ -67,6 +67,8 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Changelog ==
 
+= 1.1.0 =
+* ✨ Add deactivation logic to remove plugin options
 = 1.0.0 =
 * Initial release of the plugin.
 
