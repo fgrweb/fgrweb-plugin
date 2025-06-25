@@ -30,7 +30,9 @@ class Fgrweb_Plugin_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		// Delete options - updater.
+		delete_option( 'fgrweb_plugin_config' );
+		delete_option( 'external_updates-fgrweb-plugin' );
 	}
 
 }
