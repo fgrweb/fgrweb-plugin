@@ -70,6 +70,7 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 = 1.0.0 =
 * Initial release of the plugin.
 
+
 == Arbitrary section ==
 
 You may provide arbitrary sections, in the same format as the ones above.  This may be of use for extremely complicated
