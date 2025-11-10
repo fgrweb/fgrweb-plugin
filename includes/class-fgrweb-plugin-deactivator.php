@@ -23,16 +23,17 @@
 class Fgrweb_Plugin_Deactivator {
 
 	/**
-	 * Short Description. (use period)
+	 * Plugin deactivation handler.
 	 *
-	 * Long Description.
+	 * This method is called when the plugin is deactivated. Note that plugin
+	 * options are NOT deleted here - they are preserved in case the plugin
+	 * is reactivated. Options are only deleted during uninstall.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-		// Delete options - updater.
-		delete_option( 'fgrweb_plugin_config' );
-		delete_option( 'external_updates-fgrweb-plugin' );
+		// Clear any cached data if needed.
+		// Note: Options are not deleted here, only during uninstall.
 	}
 
 }

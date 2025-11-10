@@ -13,12 +13,6 @@
  * - Repeat with other user roles. Best directly by using the links/query string parameters.
  * - Repeat things for multisite. Once for a single site in the network, once sitewide.
  *
- * This file may be updated more in future version of the Boilerplate; however, this is the
- * general skeleton and outline for how the file should work.
- *
- * For more information, see the following discussion:
- * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
- *
  * @link       https://fgrweb.es
  * @since      1.0.0
  *
@@ -29,3 +23,13 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+/**
+ * The class responsible for cleaning up plugin data during uninstall.
+ */
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-fgrweb-plugin-uninstaller.php';
+
+/**
+ * Run the uninstaller.
+ */
+Fgrweb_Plugin_Uninstaller::uninstall();

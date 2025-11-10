@@ -159,6 +159,120 @@ class Fgrweb_Plugin {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'fgrweb_add_config_menu' );
 		// Register settings.
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'fgrweb_register_settings' );
+
+		// Apply security settings.
+		$this->apply_security_settings( $plugin_admin );
+	}
+
+	/**
+	 * Apply security settings based on user configuration.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @param    Fgrweb_Plugin_Admin $plugin_admin Instance of the admin class.
+	 * @return   void
+	 */
+	private function apply_security_settings( $plugin_admin ) {
+		$security_options = get_option( 'fgrweb_security_options', array() );
+
+		// Security Headers.
+		if ( ! empty( $security_options['x_frame_options'] ) || ! empty( $security_options['x_content_type_options'] ) ||
+			! empty( $security_options['x_xss_protection'] ) || ! empty( $security_options['referrer_policy'] ) ||
+			! empty( $security_options['permissions_policy'] ) || ! empty( $security_options['hsts'] ) ) {
+			$this->loader->add_action( 'send_headers', $plugin_admin, 'fgrweb_apply_security_headers' );
+		}
+
+		// Disable emojis.
+		if ( ! empty( $security_options['disable_emojis'] ) ) {
+			$this->loader->add_action( 'init', $plugin_admin, 'fgrweb_disable_emojis' );
+		}
+
+		// Remove WP version.
+		if ( ! empty( $security_options['remove_wp_version'] ) ) {
+			$this->loader->add_action( 'init', $plugin_admin, 'fgrweb_remove_wp_version' );
+		}
+
+		// Remove WLW Manifest.
+		if ( ! empty( $security_options['remove_wlw_manifest'] ) ) {
+			$this->loader->add_action( 'init', $plugin_admin, 'fgrweb_remove_wlw_manifest' );
+		}
+
+		// Remove RSD Link.
+		if ( ! empty( $security_options['remove_rsd_link'] ) ) {
+			$this->loader->add_action( 'init', $plugin_admin, 'fgrweb_remove_rsd_link' );
+		}
+
+		// Remove Shortlink.
+		if ( ! empty( $security_options['remove_shortlink'] ) ) {
+			$this->loader->add_action( 'init', $plugin_admin, 'fgrweb_remove_shortlink' );
+		}
+
+		// Remove REST API links.
+		if ( ! empty( $security_options['remove_rest_api_links'] ) ) {
+			$this->loader->add_action( 'init', $plugin_admin, 'fgrweb_remove_rest_api_links' );
+		}
+
+		// Remove oEmbed links.
+		if ( ! empty( $security_options['remove_oembed_links'] ) ) {
+			$this->loader->add_action( 'init', $plugin_admin, 'fgrweb_remove_oembed_links' );
+		}
+
+		// Disable file edit.
+		if ( ! empty( $security_options['disable_file_edit'] ) ) {
+			$plugin_admin->fgrweb_disable_file_edit();
+		}
+
+		// Disable XML-RPC.
+		if ( ! empty( $security_options['disable_xmlrpc'] ) ) {
+			$this->loader->add_filter( 'xmlrpc_enabled', $plugin_admin, 'fgrweb_disable_xmlrpc' );
+		}
+
+		// Hide login errors.
+		if ( ! empty( $security_options['hide_login_errors'] ) ) {
+			$this->loader->add_filter( 'login_errors', $plugin_admin, 'fgrweb_hide_login_errors' );
+		}
+
+		// Disable REST API for non-authenticated users.
+		if ( ! empty( $security_options['disable_rest_api'] ) ) {
+			$this->loader->add_filter( 'rest_authentication_errors', $plugin_admin, 'fgrweb_disable_rest_api' );
+		}
+
+		// Disable REST API users endpoint.
+		if ( ! empty( $security_options['disable_rest_users'] ) ) {
+			$this->loader->add_filter( 'rest_endpoints', $plugin_admin, 'fgrweb_disable_rest_users' );
+		}
+
+		// Remove version from scripts and styles.
+		if ( ! empty( $security_options['remove_version_scripts'] ) ) {
+			$this->loader->add_filter( 'style_loader_src', $plugin_admin, 'fgrweb_remove_version_scripts', 9999 );
+			$this->loader->add_filter( 'script_loader_src', $plugin_admin, 'fgrweb_remove_version_scripts', 9999 );
+		}
+
+		// Disable trackbacks.
+		if ( ! empty( $security_options['disable_trackbacks'] ) ) {
+			$this->loader->add_filter( 'pings_open', $plugin_admin, 'fgrweb_disable_trackbacks', 10, 1 );
+		}
+
+		// Disable application passwords.
+		if ( ! empty( $security_options['disable_application_passwords'] ) ) {
+			$this->loader->add_filter( 'wp_is_application_passwords_available', $plugin_admin, 'fgrweb_disable_application_passwords' );
+		}
+
+		// Disable feeds.
+		if ( ! empty( $security_options['disable_feeds'] ) ) {
+			$this->loader->add_action( 'do_feed', $plugin_admin, 'fgrweb_disable_feeds', 1 );
+			$this->loader->add_action( 'do_feed_rdf', $plugin_admin, 'fgrweb_disable_feeds', 1 );
+			$this->loader->add_action( 'do_feed_rss', $plugin_admin, 'fgrweb_disable_feeds', 1 );
+			$this->loader->add_action( 'do_feed_rss2', $plugin_admin, 'fgrweb_disable_feeds', 1 );
+			$this->loader->add_action( 'do_feed_atom', $plugin_admin, 'fgrweb_disable_feeds', 1 );
+			$this->loader->add_action( 'do_feed_rss2_comments', $plugin_admin, 'fgrweb_disable_feeds', 1 );
+			$this->loader->add_action( 'do_feed_atom_comments', $plugin_admin, 'fgrweb_disable_feeds', 1 );
+		}
+
+		// Limit post revisions.
+		if ( ! empty( $security_options['limit_post_revisions'] ) ) {
+			$plugin_admin->fgrweb_limit_post_revisions();
+		}
 	}
 
 	/**
