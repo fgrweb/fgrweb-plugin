@@ -267,7 +267,7 @@ print_info "Actualizando contenido de archivos..."
 
 # Buscar todos los archivos PHP, CSS, JS, TXT, POT y MD (fuera de bin/, vendor y node_modules).
 # El text domain es siempre el slug, así que lo cubre el reemplazo de fgrweb-plugin.
-FILES=$(find . -type f \( -name "*.php" -o -name "*.css" -o -name "*.js" -o -name "*.txt" -o -name "*.pot" -o -name "*.md" \) ! -path "*/\.*" ! -path "./bin/*" ! -path "*/node_modules/*" ! -path "*/vendor/*" ! -path "*/updater-checker/*")
+FILES=$(find . -type f \( -name "*.php" -o -name "*.css" -o -name "*.js" -o -name "*.txt" -o -name "*.pot" -o -name "*.md" -o -name "*.xml" -o -name "*.dist" \) ! -path "*/\.*" ! -path "./bin/*" ! -path "*/node_modules/*" ! -path "*/vendor/*" ! -path "*/updater-checker/*")
 
 # Título para ficheros no PHP (README, .pot) y para PHP (apóstrofes escapados: ' -> \').
 ESC_TITLE="$(sed_escape "$PLUGIN_NAME")"
