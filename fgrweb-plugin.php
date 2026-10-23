@@ -15,7 +15,7 @@
  * Plugin Name:       F.GR Plugin Boilerplate
  * Plugin URI:        https://fgrweb.es
  * Description:       Custom plugin
- * Version:           1.2.0
+ * Version:           1.3.0
  * Author:            Fernando Garcia Rebolledo
  * Author URI:        https://fgrweb.es/
  * License:           GPL-2.0+
@@ -36,7 +36,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'FGRWEB_PLUGIN_VERSION', '1.2.0' );
+define( 'FGRWEB_PLUGIN_VERSION', '1.3.0' );
 
 /**
  * The code that runs during plugin activation.
@@ -84,8 +84,10 @@ function fgrweb_plugin_updater_checker() {
 	if ( ! empty( $token['github_token'] ) ) {
 		$update_checker->setAuthentication( $token['github_token'] );
 	}
-	// Check for releases.
-	$update_checker->getVcsApi()->enableReleaseAssets();
+	// Use release assets, but only .zip files (the Action uploads
+	// fgrweb-plugin-X.Y.Z.zip). With no matching asset PUC falls back to
+	// the auto-generated zipball of the release.
+	$update_checker->getVcsApi()->enableReleaseAssets( '/\.zip($|[?&#])/i' );
 }
 
 /**

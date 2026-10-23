@@ -265,9 +265,11 @@ echo ""
 # 3. Reemplazar contenido en archivos
 print_info "Actualizando contenido de archivos..."
 
-# Buscar todos los archivos PHP, CSS, JS, TXT, POT y MD (fuera de bin/, vendor y node_modules).
+# Buscar todos los archivos PHP, CSS, JS, TXT, POT, MD, XML/DIST y YML, incluidos los de
+# directorios ocultos como .github/ (solo se excluye .git/). Fuera: bin/, vendor, node_modules
+# y la librería updater-checker.
 # El text domain es siempre el slug, así que lo cubre el reemplazo de fgrweb-plugin.
-FILES=$(find . -type f \( -name "*.php" -o -name "*.css" -o -name "*.js" -o -name "*.txt" -o -name "*.pot" -o -name "*.md" -o -name "*.xml" -o -name "*.dist" \) ! -path "*/\.*" ! -path "./bin/*" ! -path "*/node_modules/*" ! -path "*/vendor/*" ! -path "*/updater-checker/*")
+FILES=$(find . -type f \( -name "*.php" -o -name "*.css" -o -name "*.js" -o -name "*.txt" -o -name "*.pot" -o -name "*.md" -o -name "*.xml" -o -name "*.dist" -o -name "*.yml" -o -name "*.yaml" \) ! -path "./.git/*" ! -path "./bin/*" ! -path "*/node_modules/*" ! -path "*/vendor/*" ! -path "*/updater-checker/*")
 
 # Título para ficheros no PHP (README, .pot) y para PHP (apóstrofes escapados: ' -> \').
 ESC_TITLE="$(sed_escape "$PLUGIN_NAME")"
@@ -287,6 +289,14 @@ for file in $FILES; do
         fi
     fi
 done
+
+# README.md: eliminar las secciones que solo aplican al boilerplate
+# (delimitadas con <!-- solo-boilerplate:inicio --> ... <!-- solo-boilerplate:fin -->).
+if [ -f "README.md" ]; then
+    sedi '/<!-- solo-boilerplate:inicio -->/,/<!-- solo-boilerplate:fin -->/d' "README.md"
+    # Colapsar líneas en blanco consecutivas que hayan quedado.
+    sedi -e '/./,/^$/!d' "README.md"
+fi
 
 print_success "Contenido actualizado en todos los archivos"
 
@@ -324,7 +334,7 @@ fi
 # 5. Renombrar archivos
 print_info "Renombrando archivos..."
 
-FILES_TO_RENAME=$(find . -type f -name "*${OLD_SLUG}*" ! -path "*/\.*" ! -path "./bin/*" ! -path "*/node_modules/*" ! -path "*/vendor/*" ! -path "*/updater-checker/*")
+FILES_TO_RENAME=$(find . -type f -name "*${OLD_SLUG}*" ! -path "./.git/*" ! -path "./bin/*" ! -path "*/node_modules/*" ! -path "*/vendor/*" ! -path "*/updater-checker/*")
 
 for old_file in $FILES_TO_RENAME; do
     new_file=$(echo "$old_file" | sed "s|${OLD_SLUG}|${NEW_SLUG}|g")
@@ -336,7 +346,7 @@ for old_file in $FILES_TO_RENAME; do
 done
 
 # 6. Renombrar directorios si es necesario
-DIRS_TO_RENAME=$(find . -type d -name "*${OLD_SLUG}*" ! -path "*/\.*" ! -path "./bin/*" ! -path "*/node_modules/*" ! -path "*/vendor/*" ! -path "*/updater-checker/*" | sort -r)
+DIRS_TO_RENAME=$(find . -type d -name "*${OLD_SLUG}*" ! -path "./.git/*" ! -path "./bin/*" ! -path "*/node_modules/*" ! -path "*/vendor/*" ! -path "*/updater-checker/*" | sort -r)
 
 for old_dir in $DIRS_TO_RENAME; do
     new_dir=$(echo "$old_dir" | sed "s|${OLD_SLUG}|${NEW_SLUG}|g")
