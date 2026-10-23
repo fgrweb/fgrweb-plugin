@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -41,34 +40,55 @@ class Fgrweb_Plugin_Admin {
 	private $version;
 
 	/**
+	 * Hook suffix of the plugin settings page, returned by add_options_page().
+	 *
+	 * Used to enqueue the admin assets only on that page.
+	 *
+	 * @since    1.1.0
+	 * @access   private
+	 * @var      string    $hook_suffix    The settings page hook suffix.
+	 */
+	private $hook_suffix = '';
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
-
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
+		$this->version     = $version;
 	}
 
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
+	 * Only loaded on the plugin settings page.
+	 *
 	 * @since    1.0.0
+	 * @param    string $hook Current admin page hook suffix.
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles( $hook ) {
+		if ( $hook !== $this->hook_suffix ) {
+			return;
+		}
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/fgrweb-plugin-admin.css', array(), $this->version, 'all' );
 	}
 
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
+	 * Only loaded on the plugin settings page.
+	 *
 	 * @since    1.0.0
+	 * @param    string $hook Current admin page hook suffix.
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts( $hook ) {
+		if ( $hook !== $this->hook_suffix ) {
+			return;
+		}
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fgrweb-plugin-admin.js', array( 'jquery' ), $this->version, false );
 	}
 	/**
@@ -251,9 +271,9 @@ class Fgrweb_Plugin_Admin {
 	 * @return void
 	 */
 	public function fgrweb_add_config_menu() {
-		add_options_page(
-			'Configuración Fgrweb Plugin',
-			'Fgrweb Plugin',
+		$this->hook_suffix = add_options_page(
+			__( 'Configuración Fgrweb Plugin', 'fgrweb-plugin' ),
+			__( 'Fgrweb Plugin', 'fgrweb-plugin' ),
 			'manage_options',
 			'fgrweb-plugin-config',
 			array( $this, 'fgrweb_config_page' )
@@ -293,8 +313,8 @@ class Fgrweb_Plugin_Admin {
 		}
 		?>
 		<div class="wrap">
-			<h2><?php esc_html_e( 'Configuración Fgrweb Plugin', 'fgrweb-plugin' ); ?></h2>
-			<h2 class="nav-tab-wrapper">
+			<h1><?php esc_html_e( 'Configuración Fgrweb Plugin', 'fgrweb-plugin' ); ?></h1>
+			<nav class="nav-tab-wrapper">
 				<?php
 				foreach ( $tabs as $tab => $name ) {
 					$class = ( $tab === $current_tab ) ? ' nav-tab-active' : '';
@@ -308,7 +328,7 @@ class Fgrweb_Plugin_Admin {
 					echo '<a href="' . esc_url( $url ) . '" class="nav-tab' . esc_attr( $class ) . '">' . esc_html( $name ) . '</a>';
 				}
 				?>
-			</h2>
+			</nav>
 			<?php
 			if ( 'updates' === $current_tab ) {
 				?>
@@ -745,7 +765,7 @@ class Fgrweb_Plugin_Admin {
 	 * @param bool $enabled Whether XML-RPC is enabled.
 	 * @return bool
 	 */
-	public function fgrweb_disable_xmlrpc( $enabled ) {
+	public function fgrweb_disable_xmlrpc( $enabled ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Filter signature.
 		return false;
 	}
 
@@ -810,7 +830,7 @@ class Fgrweb_Plugin_Admin {
 	 * @param bool $open Whether pingbacks are open.
 	 * @return bool
 	 */
-	public function fgrweb_disable_trackbacks( $open ) {
+	public function fgrweb_disable_trackbacks( $open ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Filter signature.
 		return false;
 	}
 
@@ -820,7 +840,7 @@ class Fgrweb_Plugin_Admin {
 	 * @param bool $enabled Whether application passwords are enabled.
 	 * @return bool
 	 */
-	public function fgrweb_disable_application_passwords( $enabled ) {
+	public function fgrweb_disable_application_passwords( $enabled ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Filter signature.
 		return false;
 	}
 

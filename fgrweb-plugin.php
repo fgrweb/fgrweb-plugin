@@ -1,6 +1,4 @@
 <?php
-use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
-
 /**
  * The plugin bootstrap file
  *
@@ -31,12 +29,14 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
 /**
  * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'FGRWEB_PLUGIN_VERSION', '1.0.0' );
+define( 'FGRWEB_PLUGIN_VERSION', '1.1.0' );
 
 /**
  * The code that runs during plugin activation.
@@ -101,6 +101,5 @@ function run_fgrweb_plugin() {
 	fgrweb_plugin_updater_checker();
 	$plugin = new Fgrweb_Plugin();
 	$plugin->run();
-
 }
 run_fgrweb_plugin();

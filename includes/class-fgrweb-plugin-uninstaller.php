@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin uninstall
  *
@@ -43,10 +42,13 @@ class Fgrweb_Plugin_Uninstaller {
 
 		// For multisite installations, delete options for all sites.
 		if ( is_multisite() ) {
-			global $wpdb;
-
-			// Get all blog IDs.
-			$blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+			// 'number' => 0 removes the default limit of 100 sites.
+			$blog_ids = get_sites(
+				array(
+					'fields' => 'ids',
+					'number' => 0,
+				)
+			);
 
 			foreach ( $blog_ids as $blog_id ) {
 				switch_to_blog( $blog_id );
@@ -60,5 +62,4 @@ class Fgrweb_Plugin_Uninstaller {
 			}
 		}
 	}
-
 }
