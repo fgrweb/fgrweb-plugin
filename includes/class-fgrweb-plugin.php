@@ -85,7 +85,7 @@ class Fgrweb_Plugin {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - Fgrweb_Plugin_Loader. Orchestrates the hooks of the plugin.
-	 * - Fgrweb_Plugin_i18n. Defines internationalization functionality.
+	 * - Fgrweb_Plugin_I18n. Defines internationalization functionality.
 	 * - Fgrweb_Plugin_Admin. Defines all hooks for the admin area.
 	 * - Fgrweb_Plugin_Public. Defines all hooks for the public side of the site.
 	 *
@@ -126,7 +126,7 @@ class Fgrweb_Plugin {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Fgrweb_Plugin_i18n class in order to set the domain and to register the hook
+	 * Uses the Fgrweb_Plugin_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -134,7 +134,7 @@ class Fgrweb_Plugin {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Fgrweb_Plugin_i18n();
+		$plugin_i18n = new Fgrweb_Plugin_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}

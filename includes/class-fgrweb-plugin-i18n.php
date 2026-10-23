@@ -23,7 +23,7 @@
  * @subpackage Fgrweb_Plugin/includes
  * @author     Fernando Garcia Rebolledo <info@fgrweb.es>
  */
-class Fgrweb_Plugin_i18n {
+class Fgrweb_Plugin_I18n {
 
 
 	/**
