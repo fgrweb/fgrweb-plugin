@@ -4,7 +4,7 @@ Donate link: https://fgrweb.es/
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,12 @@ Ejecuta `bin/setup-plugin.sh` en un directorio vacío. El script descarga el boi
 Las opciones `fgrweb_plugin_config`, `fgrweb_plugin_security_options` y `external_updates-fgrweb-plugin`. Al desactivar no se borra nada.
 
 == Changelog ==
+
+= 1.3.0 =
+* 👷 GitHub Action que publica la release con el zip del plugin al subir un tag X.Y.Z: comprueba que cabecera, constante y Stable tag coinciden con el tag, falla si la release ya existe, genera el zip con git archive (respeta export-ignore) y toma las notas del changelog.
+* 🔧 El updater solo acepta assets .zip de la release.
+* 🔧 setup-plugin.sh procesa .github/ y los .yml, y elimina del README.md generado las secciones que solo aplican al boilerplate.
+* 📝 README.md con el procedimiento para publicar una versión y corregir un tag con versiones no sincronizadas.
 
 = 1.2.0 =
 * 🔒 Guardado de ajustes solo vía Settings API (nonce y capacidad en options.php), pestaña activa validada contra lista blanca y escapada.
