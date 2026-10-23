@@ -37,9 +37,6 @@ OLD_CLASS="Fgrweb_Plugin"
 OLD_CONST="FGRWEB_PLUGIN"
 OLD_FUNCTION="fgrweb_plugin"
 OLD_TITLE="Fgrweb Plugin"
-# Ruta GitHub del boilerplate. En README.md debe conservarse (enlaces al boilerplate).
-BOILERPLATE_PATH="fgrweb/fgrweb-plugin"
-BOILERPLATE_PLACEHOLDER="@@BOILERPLATE_PATH@@"
 
 # Función para imprimir mensajes con color
 print_message() {
@@ -280,11 +277,6 @@ ESC_TITLE_PHP="$(sed_escape "$(printf '%s' "$PLUGIN_NAME" | sed "s/'/\\\\'/g")")
 
 for file in $FILES; do
     if [ -f "$file" ]; then
-        # README.md enlaza al boilerplate: proteger su ruta para que no se renombre.
-        if [ "$file" = "./README.md" ]; then
-            sedi "s|${BOILERPLATE_PATH}|${BOILERPLATE_PLACEHOLDER}|g" "$file"
-        fi
-
         # Orden: clase, constante, función, slug (también text domain), título.
         sedi "s|${OLD_CLASS}|${NEW_CLASS}|g" "$file"
         sedi "s|${OLD_CONST}|${NEW_CONST}|g" "$file"
@@ -295,12 +287,16 @@ for file in $FILES; do
         else
             sedi "s|${OLD_TITLE}|${ESC_TITLE}|g" "$file"
         fi
-
-        if [ "$file" = "./README.md" ]; then
-            sedi "s|${BOILERPLATE_PLACEHOLDER}|${BOILERPLATE_PATH}|g" "$file"
-        fi
     fi
 done
+
+# README.md: eliminar las secciones que solo aplican al boilerplate
+# (delimitadas con <!-- solo-boilerplate:inicio --> ... <!-- solo-boilerplate:fin -->).
+if [ -f "README.md" ]; then
+    sedi '/<!-- solo-boilerplate:inicio -->/,/<!-- solo-boilerplate:fin -->/d' "README.md"
+    # Colapsar líneas en blanco consecutivas que hayan quedado.
+    sedi -e '/./,/^$/!d' "README.md"
+fi
 
 print_success "Contenido actualizado en todos los archivos"
 

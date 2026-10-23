@@ -1,6 +1,6 @@
 # Fgrweb Plugin
 
-Plugin de WordPress basado en el boilerplate de F.GR Web: estructura de
+Plugin de WordPress con la estructura base de F.GR Web: estructura de
 [WordPress Plugin Boilerplate](https://github.com/DevinVinson/WordPress-Plugin-Boilerplate),
 actualizaciones desde GitHub con [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker)
 y una página de ajustes con pestañas **Actualizaciones** (token de GitHub) y **Seguridad**.
@@ -8,10 +8,8 @@ y una página de ajustes con pestañas **Actualizaciones** (token de GitHub) y *
 Este `README.md` es documentación para desarrolladores y no viaja en el zip de release
 (`.gitattributes` → `export-ignore`). La descripción pública del plugin está en `README.txt`.
 
+<!-- solo-boilerplate:inicio -->
 ## Crear un plugin nuevo a partir del boilerplate
-
-Solo aplica al repositorio del boilerplate (`fgrweb/fgrweb-plugin`). En un plugin ya generado
-la carpeta `bin/` no existe.
 
 ```bash
 mkdir mi-plugin && cd mi-plugin
@@ -21,8 +19,10 @@ bash setup-plugin.sh
 
 El script descarga el boilerplate, pide slug, nombre, autor y repositorio de GitHub, renombra
 clases, constantes, funciones, opciones, ficheros y el workflow de release, crea `.gitignore`,
-elimina `bin/` y, si se le indica, hace el primer push a `origin`.
+elimina `bin/` y, si se le indica, hace el primer push a `origin`. Las secciones de este
+README.md delimitadas con `<!-- solo-boilerplate -->` se eliminan del plugin generado.
 
+<!-- solo-boilerplate:fin -->
 ## Cómo publicar una versión
 
 Las releases se crean solas: al subir un tag `X.Y.Z` (sin `v`), la Action
@@ -50,8 +50,10 @@ plugin descarga ese zip en las webs donde esté instalado.
    git push origin X.Y.Z
    ```
 
+<!-- solo-boilerplate:inicio -->
 > En el repositorio del boilerplate el remoto se llama `upstream`, no `origin`:
 > sustituye `origin` por `upstream` en los comandos.
+<!-- solo-boilerplate:fin -->
 
 ### Qué hace la Action
 
