@@ -4,7 +4,7 @@ Donate link: https://fgrweb.es/
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,18 @@ Ejecuta `bin/setup-plugin.sh` en un directorio vacío. El script descarga el boi
 Las opciones `fgrweb_plugin_config`, `fgrweb_plugin_security_options` y `external_updates-fgrweb-plugin`. Al desactivar no se borra nada.
 
 == Changelog ==
+
+= 1.2.0 =
+* 🔒 Guardado de ajustes solo vía Settings API (nonce y capacidad en options.php), pestaña activa validada contra lista blanca y escapada.
+* 🐛 Ruta del updater independiente del nombre de la carpeta; función del updater con prefijo del plugin (evita "Cannot redeclare" entre plugins del boilerplate).
+* 🐛 El campo del token GitHub ya no muestra asteriscos como valor: vacío conserva el token, checkbox explícito para eliminarlo.
+* 🐛 Opción de seguridad y clase CSS prefijadas con el slug (fgrweb_plugin_security_options). Sin migración: volver a guardar la pestaña Seguridad.
+* ✨ Pestaña Seguridad: cabeceras HTTP, limpieza de wp_head, XML-RPC, REST API, feeds, login, revisiones. Todo desactivado por defecto.
+* ✨ Limpieza de opciones solo al desinstalar (multisitio con get_sites), no al desactivar.
+* ✨ CSS/JS de admin solo en la página de ajustes.
+* ⬆️ Plugin Update Checker 5.7.
+* 🔧 bin/setup-plugin.sh versionado y portable (macOS/Linux); .gitattributes con export-ignore; phpcs.xml.dist con estándar WordPress.
+* 🎨 Código conforme a WPCS (phpcs a 0).
 
 = 1.1.0 =
 * ✨ Add deactivation logic to remove plugin options
