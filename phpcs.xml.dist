@@ -14,6 +14,11 @@
 
 	<rule ref="WordPress"/>
 
+	<!-- Los index.php de "Silence is golden" no necesitan docblock de fichero. -->
+	<rule ref="Squiz.Commenting.FileComment">
+		<exclude-pattern>*/index.php</exclude-pattern>
+	</rule>
+
 	<config name="minimum_supported_wp_version" value="6.0"/>
 	<config name="testVersion" value="7.4-"/>
 </ruleset>
