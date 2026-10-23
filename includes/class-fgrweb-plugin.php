@@ -173,7 +173,7 @@ class Fgrweb_Plugin {
 	 * @return   void
 	 */
 	private function apply_security_settings( $plugin_admin ) {
-		$security_options = get_option( 'fgrweb_security_options', array() );
+		$security_options = get_option( 'fgrweb_plugin_security_options', array() );
 
 		// Security Headers.
 		if ( ! empty( $security_options['x_frame_options'] ) || ! empty( $security_options['x_content_type_options'] ) ||

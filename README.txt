@@ -35,7 +35,7 @@ Ejecuta `bin/setup-plugin.sh` en un directorio vacío. El script descarga el boi
 
 = ¿Qué se borra al desinstalar? =
 
-Las opciones `fgrweb_plugin_config`, `fgrweb_security_options` y `external_updates-fgrweb-plugin`. Al desactivar no se borra nada.
+Las opciones `fgrweb_plugin_config`, `fgrweb_plugin_security_options` y `external_updates-fgrweb-plugin`. Al desactivar no se borra nada.
 
 == Changelog ==
 

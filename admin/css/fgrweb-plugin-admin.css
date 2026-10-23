@@ -4,7 +4,7 @@
  */
 
 /* Security Settings Page Styles */
-.fgrweb-security-settings h3 {
+.fgrweb-plugin-security-settings h3 {
 	background: #f0f0f1;
 	padding: 12px 15px;
 	margin: 25px 0 0 0;
@@ -13,37 +13,37 @@
 	font-weight: 600;
 }
 
-.fgrweb-security-settings h3:first-child {
+.fgrweb-plugin-security-settings h3:first-child {
 	margin-top: 15px;
 }
 
-.fgrweb-security-settings .form-table {
+.fgrweb-plugin-security-settings .form-table {
 	margin-top: 0;
 	margin-bottom: 15px;
 }
 
-.fgrweb-security-settings .form-table th {
+.fgrweb-plugin-security-settings .form-table th {
 	width: 250px;
 	padding: 15px 10px 15px 0;
 	font-weight: 600;
 }
 
-.fgrweb-security-settings .form-table td {
+.fgrweb-plugin-security-settings .form-table td {
 	padding: 15px 10px;
 }
 
-.fgrweb-security-settings .form-table td label {
+.fgrweb-plugin-security-settings .form-table td label {
 	display: flex;
 	align-items: center;
 	gap: 8px;
 	font-size: 13px;
 }
 
-.fgrweb-security-settings .form-table td input[type="checkbox"] {
+.fgrweb-plugin-security-settings .form-table td input[type="checkbox"] {
 	margin: 0;
 }
 
-.fgrweb-security-settings .submit {
+.fgrweb-plugin-security-settings .submit {
 	padding-top: 10px;
 	border-top: 1px solid #c3c4c7;
 }

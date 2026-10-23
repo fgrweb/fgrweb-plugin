@@ -108,7 +108,7 @@ class Fgrweb_Plugin_Admin {
 		);
 		register_setting(
 			'fgrweb-plugin-security',
-			'fgrweb_security_options',
+			'fgrweb_plugin_security_options',
 			array(
 				'type'              => 'array',
 				'sanitize_callback' => array( $this, 'fgrweb_sanitize_security' ),
@@ -356,9 +356,9 @@ class Fgrweb_Plugin_Admin {
 	 * @return void
 	 */
 	public function fgrweb_security_page() {
-		$security_options = get_option( 'fgrweb_security_options', array() );
+		$security_options = get_option( 'fgrweb_plugin_security_options', array() );
 		?>
-		<div class="fgrweb-security-settings">
+		<div class="fgrweb-plugin-security-settings">
 			<form method="post" action="options.php">
 				<?php settings_fields( 'fgrweb-plugin-security' ); ?>
 
@@ -368,7 +368,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'X-Frame-Options', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[x_frame_options]" value="1" <?php checked( isset( $security_options['x_frame_options'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[x_frame_options]" value="1" <?php checked( isset( $security_options['x_frame_options'] ), true ); ?> />
 							<?php esc_html_e( 'Prevenir clickjacking (SAMEORIGIN)', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -377,7 +377,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'X-Content-Type-Options', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[x_content_type_options]" value="1" <?php checked( isset( $security_options['x_content_type_options'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[x_content_type_options]" value="1" <?php checked( isset( $security_options['x_content_type_options'] ), true ); ?> />
 							<?php esc_html_e( 'Prevenir MIME sniffing', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -386,7 +386,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'X-XSS-Protection', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[x_xss_protection]" value="1" <?php checked( isset( $security_options['x_xss_protection'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[x_xss_protection]" value="1" <?php checked( isset( $security_options['x_xss_protection'] ), true ); ?> />
 							<?php esc_html_e( 'Protección contra XSS en navegadores antiguos', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -395,7 +395,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Referrer-Policy', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[referrer_policy]" value="1" <?php checked( isset( $security_options['referrer_policy'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[referrer_policy]" value="1" <?php checked( isset( $security_options['referrer_policy'] ), true ); ?> />
 							<?php esc_html_e( 'Controlar información de referrer (strict-origin-when-cross-origin)', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -404,7 +404,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Permissions-Policy', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[permissions_policy]" value="1" <?php checked( isset( $security_options['permissions_policy'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[permissions_policy]" value="1" <?php checked( isset( $security_options['permissions_policy'] ), true ); ?> />
 							<?php esc_html_e( 'Controlar APIs del navegador (geolocation, microphone, camera)', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -413,7 +413,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Strict-Transport-Security (HSTS)', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[hsts]" value="1" <?php checked( isset( $security_options['hsts'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[hsts]" value="1" <?php checked( isset( $security_options['hsts'] ), true ); ?> />
 							<?php esc_html_e( 'Forzar HTTPS (max-age=31536000)', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -426,7 +426,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Emojis de WordPress', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[disable_emojis]" value="1" <?php checked( isset( $security_options['disable_emojis'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[disable_emojis]" value="1" <?php checked( isset( $security_options['disable_emojis'] ), true ); ?> />
 							<?php esc_html_e( 'Deshabilitar emojis de WordPress', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -435,7 +435,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Generator Meta Tag', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[remove_wp_version]" value="1" <?php checked( isset( $security_options['remove_wp_version'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[remove_wp_version]" value="1" <?php checked( isset( $security_options['remove_wp_version'] ), true ); ?> />
 							<?php esc_html_e( 'Eliminar meta tag generator (ocultar versión de WordPress)', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -444,7 +444,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'WLW Manifest', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[remove_wlw_manifest]" value="1" <?php checked( isset( $security_options['remove_wlw_manifest'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[remove_wlw_manifest]" value="1" <?php checked( isset( $security_options['remove_wlw_manifest'] ), true ); ?> />
 							<?php esc_html_e( 'Eliminar Windows Live Writer Manifest', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -453,7 +453,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'RSD Link', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[remove_rsd_link]" value="1" <?php checked( isset( $security_options['remove_rsd_link'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[remove_rsd_link]" value="1" <?php checked( isset( $security_options['remove_rsd_link'] ), true ); ?> />
 							<?php esc_html_e( 'Eliminar Really Simple Discovery link', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -462,7 +462,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Shortlink', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[remove_shortlink]" value="1" <?php checked( isset( $security_options['remove_shortlink'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[remove_shortlink]" value="1" <?php checked( isset( $security_options['remove_shortlink'] ), true ); ?> />
 							<?php esc_html_e( 'Eliminar shortlink del header', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -471,7 +471,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'REST API Links', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[remove_rest_api_links]" value="1" <?php checked( isset( $security_options['remove_rest_api_links'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[remove_rest_api_links]" value="1" <?php checked( isset( $security_options['remove_rest_api_links'] ), true ); ?> />
 							<?php esc_html_e( 'Eliminar REST API links del header', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -480,7 +480,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'oEmbed Links', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[remove_oembed_links]" value="1" <?php checked( isset( $security_options['remove_oembed_links'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[remove_oembed_links]" value="1" <?php checked( isset( $security_options['remove_oembed_links'] ), true ); ?> />
 							<?php esc_html_e( 'Eliminar oEmbed discovery links', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -493,7 +493,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Edición de Archivos', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[disable_file_edit]" value="1" <?php checked( isset( $security_options['disable_file_edit'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[disable_file_edit]" value="1" <?php checked( isset( $security_options['disable_file_edit'] ), true ); ?> />
 							<?php esc_html_e( 'Deshabilitar edición de archivos en el panel de administración', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -502,7 +502,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'XML-RPC', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[disable_xmlrpc]" value="1" <?php checked( isset( $security_options['disable_xmlrpc'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[disable_xmlrpc]" value="1" <?php checked( isset( $security_options['disable_xmlrpc'] ), true ); ?> />
 							<?php esc_html_e( 'Deshabilitar XML-RPC completamente', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -515,7 +515,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Errores de Login', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[hide_login_errors]" value="1" <?php checked( isset( $security_options['hide_login_errors'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[hide_login_errors]" value="1" <?php checked( isset( $security_options['hide_login_errors'] ), true ); ?> />
 							<?php esc_html_e( 'Ocultar mensajes de error de login detallados', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -528,7 +528,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'REST API para No Autenticados', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[disable_rest_api]" value="1" <?php checked( isset( $security_options['disable_rest_api'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[disable_rest_api]" value="1" <?php checked( isset( $security_options['disable_rest_api'] ), true ); ?> />
 							<?php esc_html_e( 'Deshabilitar REST API para usuarios no autenticados', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -537,7 +537,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Usuarios en REST API', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[disable_rest_users]" value="1" <?php checked( isset( $security_options['disable_rest_users'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[disable_rest_users]" value="1" <?php checked( isset( $security_options['disable_rest_users'] ), true ); ?> />
 							<?php esc_html_e( 'Ocultar listado de usuarios en REST API', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -550,7 +550,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Versión en Scripts', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[remove_version_scripts]" value="1" <?php checked( isset( $security_options['remove_version_scripts'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[remove_version_scripts]" value="1" <?php checked( isset( $security_options['remove_version_scripts'] ), true ); ?> />
 							<?php esc_html_e( 'Eliminar versión de WordPress en scripts y styles', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -563,7 +563,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Trackbacks y Pingbacks', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[disable_trackbacks]" value="1" <?php checked( isset( $security_options['disable_trackbacks'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[disable_trackbacks]" value="1" <?php checked( isset( $security_options['disable_trackbacks'] ), true ); ?> />
 							<?php esc_html_e( 'Deshabilitar trackbacks y pingbacks', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -576,7 +576,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Application Passwords', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[disable_application_passwords]" value="1" <?php checked( isset( $security_options['disable_application_passwords'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[disable_application_passwords]" value="1" <?php checked( isset( $security_options['disable_application_passwords'] ), true ); ?> />
 							<?php esc_html_e( 'Deshabilitar Application Passwords', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -585,7 +585,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Feeds RSS', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[disable_feeds]" value="1" <?php checked( isset( $security_options['disable_feeds'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[disable_feeds]" value="1" <?php checked( isset( $security_options['disable_feeds'] ), true ); ?> />
 							<?php esc_html_e( 'Deshabilitar feeds RSS', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -598,7 +598,7 @@ class Fgrweb_Plugin_Admin {
 					<th scope="row"><?php esc_html_e( 'Revisiones de Posts', 'fgrweb-plugin' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="fgrweb_security_options[limit_post_revisions]" value="1" <?php checked( isset( $security_options['limit_post_revisions'] ), true ); ?> />
+							<input type="checkbox" name="fgrweb_plugin_security_options[limit_post_revisions]" value="1" <?php checked( isset( $security_options['limit_post_revisions'] ), true ); ?> />
 							<?php esc_html_e( 'Limitar revisiones de posts a 5', 'fgrweb-plugin' ); ?>
 						</label>
 					</td>
@@ -617,7 +617,7 @@ class Fgrweb_Plugin_Admin {
 	 * @return void
 	 */
 	public function fgrweb_apply_security_headers() {
-		$options = get_option( 'fgrweb_security_options', array() );
+		$options = get_option( 'fgrweb_plugin_security_options', array() );
 
 		if ( isset( $options['x_frame_options'] ) ) {
 			header( 'X-Frame-Options: SAMEORIGIN' );

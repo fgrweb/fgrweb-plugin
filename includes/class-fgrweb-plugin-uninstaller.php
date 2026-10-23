@@ -35,7 +35,7 @@ class Fgrweb_Plugin_Uninstaller {
 		delete_option( 'fgrweb_plugin_config' );
 
 		// Delete security options.
-		delete_option( 'fgrweb_security_options' );
+		delete_option( 'fgrweb_plugin_security_options' );
 
 		// Delete updater options.
 		delete_option( 'external_updates-fgrweb-plugin' );
@@ -55,7 +55,7 @@ class Fgrweb_Plugin_Uninstaller {
 
 				// Delete options for each site.
 				delete_option( 'fgrweb_plugin_config' );
-				delete_option( 'fgrweb_security_options' );
+				delete_option( 'fgrweb_plugin_security_options' );
 				delete_option( 'external_updates-fgrweb-plugin' );
 
 				restore_current_blog();
