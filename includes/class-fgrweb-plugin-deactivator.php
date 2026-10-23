@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin deactivation
  *
@@ -35,5 +34,4 @@ class Fgrweb_Plugin_Deactivator {
 		// Clear any cached data if needed.
 		// Note: Options are not deleted here, only during uninstall.
 	}
-
 }

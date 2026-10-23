@@ -1,105 +1,58 @@
-=== Plugin Name ===
-Contributors: (this should be a list of wordpress.org userid's)
+=== F.GR Plugin Boilerplate ===
+Contributors: fgrweb
 Donate link: https://fgrweb.es/
-Tags: comments, spam
-Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
+Requires at least: 6.0
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+Base para plugins de WordPress a medida con actualizaciones desde GitHub y ajustes de seguridad opcionales.
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+Boilerplate de plugin de WordPress usado como punto de partida en los desarrollos de F.GR Web. Está basado en la estructura de WordPress Plugin Boilerplate (loader de hooks, clases separadas para admin y público, i18n) e incluye:
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
-
-A few notes about the sections above:
-
-*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
-
-    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
-
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
+* Actualizaciones automáticas desde un repositorio de GitHub mediante Plugin Update Checker, con soporte de token para repositorios privados.
+* Página de ajustes en Ajustes > Fgrweb Plugin con dos pestañas:
+  * Actualizaciones: token de GitHub.
+  * Seguridad: cabeceras HTTP, limpieza de `wp_head`, XML-RPC, REST API, feeds, errores de login, revisiones, etc. Todas las opciones están desactivadas por defecto.
+* Limpieza completa de opciones al desinstalar (también en multisitio).
+* Script `bin/setup-plugin.sh` para generar un plugin nuevo a partir del boilerplate renombrando slug, clases, constantes y funciones.
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
-
-e.g.
-
-1. Upload `fgrweb-plugin.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
+1. Sube la carpeta del plugin a `/wp-content/plugins/`.
+2. Activa el plugin desde el menú Plugins de WordPress.
+3. Configura el token de GitHub en Ajustes > Fgrweb Plugin > Actualizaciones si el repositorio es privado.
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= ¿Cómo creo un plugin nuevo a partir del boilerplate? =
 
-An answer to that question.
+Ejecuta `bin/setup-plugin.sh` en un directorio vacío. El script descarga el boilerplate, pide el slug y los datos del plugin, renombra todos los identificadores y se elimina a sí mismo al terminar.
 
-= What about foo bar? =
+= ¿Qué se borra al desinstalar? =
 
-Answer to foo bar dilemma.
-
-== Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+Las opciones `fgrweb_plugin_config`, `fgrweb_plugin_security_options` y `external_updates-fgrweb-plugin`. Al desactivar no se borra nada.
 
 == Changelog ==
 
+= 1.2.0 =
+* 🔒 Guardado de ajustes solo vía Settings API (nonce y capacidad en options.php), pestaña activa validada contra lista blanca y escapada.
+* 🐛 Ruta del updater independiente del nombre de la carpeta; función del updater con prefijo del plugin (evita "Cannot redeclare" entre plugins del boilerplate).
+* 🐛 El campo del token GitHub ya no muestra asteriscos como valor: vacío conserva el token, checkbox explícito para eliminarlo.
+* 🐛 Opción de seguridad y clase CSS prefijadas con el slug (fgrweb_plugin_security_options). Sin migración: volver a guardar la pestaña Seguridad.
+* ✨ Pestaña Seguridad: cabeceras HTTP, limpieza de wp_head, XML-RPC, REST API, feeds, login, revisiones. Todo desactivado por defecto.
+* ✨ Limpieza de opciones solo al desinstalar (multisitio con get_sites), no al desactivar.
+* ✨ CSS/JS de admin solo en la página de ajustes.
+* ⬆️ Plugin Update Checker 5.7.
+* 🔧 bin/setup-plugin.sh versionado y portable (macOS/Linux); .gitattributes con export-ignore; phpcs.xml.dist con estándar WordPress.
+* 🎨 Código conforme a WPCS (phpcs a 0).
+
 = 1.1.0 =
 * ✨ Add deactivation logic to remove plugin options
+
 = 1.0.0 =
 * Initial release of the plugin.
-
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above.  This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation."  Arbitrary sections will be shown below the built-in sections outlined above.
-
-== A brief Markdown Example ==
-
-Ordered list:
-
-1. Some feature
-1. Another feature
-1. Something else about the plugin
-
-Unordered list:
-
-* something
-* something else
-* third thing
-
-Here's a link to [WordPress](http://wordpress.org/ "Your favorite software") and one to [Markdown's Syntax Documentation][markdown syntax].
-Titles are optional, naturally.
-
-[markdown syntax]: http://daringfireball.net/projects/markdown/syntax
-            "Markdown is what the parser uses to process much of the readme file"
-
-Markdown uses email style notation for blockquotes and I've been told:
-> Asterisks for *emphasis*. Double it up  for **strong**.
-
-`<?php code(); // goes in backticks ?>`

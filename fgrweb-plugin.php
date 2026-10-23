@@ -1,6 +1,4 @@
 <?php
-use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
-
 /**
  * The plugin bootstrap file
  *
@@ -17,7 +15,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
  * Plugin Name:       F.GR Plugin Boilerplate
  * Plugin URI:        https://fgrweb.es
  * Description:       Custom plugin
- * Version:           1.1.0
+ * Version:           1.2.0
  * Author:            Fernando Garcia Rebolledo
  * Author URI:        https://fgrweb.es/
  * License:           GPL-2.0+
@@ -31,12 +29,14 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
 /**
  * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'FGRWEB_PLUGIN_VERSION', '1.0.0' );
+define( 'FGRWEB_PLUGIN_VERSION', '1.2.0' );
 
 /**
  * The code that runs during plugin activation.
@@ -70,8 +70,8 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-fgrweb-plugin.php';
  *
  * @return void
  */
-function plugin_updater_checker() {
-	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'fgrweb-plugin/includes/updater-checker/plugin-update-checker.php';
+function fgrweb_plugin_updater_checker() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/updater-checker/plugin-update-checker.php';
 	$update_checker = PucFactory::buildUpdateChecker(
 		'https://github.com/fgrweb/fgrweb-plugin/',
 		plugin_dir_path( __FILE__ ) . 'fgrweb-plugin.php',
@@ -98,9 +98,8 @@ function plugin_updater_checker() {
  * @since    1.0.0
  */
 function run_fgrweb_plugin() {
-	plugin_updater_checker();
+	fgrweb_plugin_updater_checker();
 	$plugin = new Fgrweb_Plugin();
 	$plugin->run();
-
 }
 run_fgrweb_plugin();

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Define the internationalization functionality
  *
@@ -24,7 +23,7 @@
  * @subpackage Fgrweb_Plugin/includes
  * @author     Fernando Garcia Rebolledo <info@fgrweb.es>
  */
-class Fgrweb_Plugin_i18n {
+class Fgrweb_Plugin_I18n {
 
 
 	/**
@@ -39,9 +38,5 @@ class Fgrweb_Plugin_i18n {
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
-
 	}
-
-
-
 }

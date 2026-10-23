@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -78,7 +77,6 @@ class Fgrweb_Plugin {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -87,7 +85,7 @@ class Fgrweb_Plugin {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - Fgrweb_Plugin_Loader. Orchestrates the hooks of the plugin.
-	 * - Fgrweb_Plugin_i18n. Defines internationalization functionality.
+	 * - Fgrweb_Plugin_I18n. Defines internationalization functionality.
 	 * - Fgrweb_Plugin_Admin. Defines all hooks for the admin area.
 	 * - Fgrweb_Plugin_Public. Defines all hooks for the public side of the site.
 	 *
@@ -103,33 +101,32 @@ class Fgrweb_Plugin {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fgrweb-plugin-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-fgrweb-plugin-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fgrweb-plugin-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-fgrweb-plugin-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fgrweb-plugin-admin.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-fgrweb-plugin-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-fgrweb-plugin-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-fgrweb-plugin-public.php';
 
 		$this->loader = new Fgrweb_Plugin_Loader();
-
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Fgrweb_Plugin_i18n class in order to set the domain and to register the hook
+	 * Uses the Fgrweb_Plugin_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -137,10 +134,9 @@ class Fgrweb_Plugin {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Fgrweb_Plugin_i18n();
+		$plugin_i18n = new Fgrweb_Plugin_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -173,7 +169,7 @@ class Fgrweb_Plugin {
 	 * @return   void
 	 */
 	private function apply_security_settings( $plugin_admin ) {
-		$security_options = get_option( 'fgrweb_security_options', array() );
+		$security_options = get_option( 'fgrweb_plugin_security_options', array() );
 
 		// Security Headers.
 		if ( ! empty( $security_options['x_frame_options'] ) || ! empty( $security_options['x_content_type_options'] ) ||
@@ -288,7 +284,6 @@ class Fgrweb_Plugin {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
 	}
 
 	/**
@@ -330,5 +325,4 @@ class Fgrweb_Plugin {
 	public function get_version() {
 		return $this->version;
 	}
-
 }
