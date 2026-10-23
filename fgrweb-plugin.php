@@ -70,8 +70,8 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-fgrweb-plugin.php';
  *
  * @return void
  */
-function plugin_updater_checker() {
-	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'fgrweb-plugin/includes/updater-checker/plugin-update-checker.php';
+function fgrweb_plugin_updater_checker() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/updater-checker/plugin-update-checker.php';
 	$update_checker = PucFactory::buildUpdateChecker(
 		'https://github.com/fgrweb/fgrweb-plugin/',
 		plugin_dir_path( __FILE__ ) . 'fgrweb-plugin.php',
@@ -98,7 +98,7 @@ function plugin_updater_checker() {
  * @since    1.0.0
  */
 function run_fgrweb_plugin() {
-	plugin_updater_checker();
+	fgrweb_plugin_updater_checker();
 	$plugin = new Fgrweb_Plugin();
 	$plugin->run();
 

@@ -114,15 +114,39 @@ class Fgrweb_Plugin_Admin {
 	/**
 	 * Sanitize the updater configuration before saving.
 	 *
+	 * IMPORTANT: this callback rebuilds the option from scratch and only keeps
+	 * the keys handled below. Any new key stored in 'fgrweb_plugin_config'
+	 * must be added here, otherwise it will be lost on the next save.
+	 *
+	 * Token handling:
+	 * - 'delete_token' checked: the stored token is removed. The checkbox
+	 *   itself is never persisted.
+	 * - empty field: the stored token is kept (the password input is always
+	 *   rendered empty so the token never travels back to the browser).
+	 * - non-empty field: the new value replaces the stored one.
+	 *
 	 * @param mixed $input Raw value posted to options.php.
 	 * @return array Sanitized options.
 	 */
 	public function fgrweb_sanitize_config( $input ) {
-		$input  = is_array( $input ) ? $input : array();
-		$output = array();
+		$input    = is_array( $input ) ? $input : array();
+		$existing = get_option( 'fgrweb_plugin_config', array() );
+		$existing = is_array( $existing ) ? $existing : array();
+		$output   = array();
 
-		if ( isset( $input['github_token'] ) ) {
-			$output['github_token'] = sanitize_text_field( $input['github_token'] );
+		$delete_token = ! empty( $input['delete_token'] );
+		$new_token    = isset( $input['github_token'] ) ? sanitize_text_field( $input['github_token'] ) : '';
+
+		if ( $delete_token ) {
+			// Token removed on purpose: nothing to store.
+			$new_token = '';
+		} elseif ( '' === $new_token && ! empty( $existing['github_token'] ) ) {
+			// Empty field: keep the token already saved.
+			$new_token = $existing['github_token'];
+		}
+
+		if ( '' !== $new_token ) {
+			$output['github_token'] = $new_token;
 		}
 
 		return $output;
@@ -200,9 +224,24 @@ class Fgrweb_Plugin_Admin {
 	 * @return void
 	 */
 	public function fgrweb_config_field_token() {
-		$options = get_option( 'fgrweb_plugin_config' );
+		$options   = get_option( 'fgrweb_plugin_config', array() );
+		$has_token = ! empty( $options['github_token'] );
 		?>
-		<input type="password" name="fgrweb_plugin_config[github_token]" value="<?php echo isset( $options['github_token'] ) ? esc_attr( '*********' ) : ''; ?>" />
+		<input type="password"
+			id="fgrweb_plugin_config_github_token"
+			name="fgrweb_plugin_config[github_token]"
+			value=""
+			autocomplete="new-password"
+			class="regular-text"
+			placeholder="<?php echo $has_token ? esc_attr__( 'Token guardado. Déjalo vacío para conservarlo.', 'fgrweb-plugin' ) : ''; ?>" />
+		<?php if ( $has_token ) : ?>
+			<p>
+				<label for="fgrweb_plugin_config_delete_token">
+					<input type="checkbox" id="fgrweb_plugin_config_delete_token" name="fgrweb_plugin_config[delete_token]" value="1" />
+					<?php esc_html_e( 'Eliminar el token guardado', 'fgrweb-plugin' ); ?>
+				</label>
+			</p>
+		<?php endif; ?>
 		<?php
 	}
 
@@ -796,6 +835,12 @@ class Fgrweb_Plugin_Admin {
 
 	/**
 	 * Limit post revisions.
+	 *
+	 * Must run while the plugin file is being loaded (it is called from the
+	 * Fgrweb_Plugin constructor), i.e. before wp_functionality_constants()
+	 * defines WP_POST_REVISIONS right after 'plugins_loaded'. Defining the
+	 * constant instead of filtering 'wp_revisions_to_keep' keeps any value
+	 * set in wp-config.php untouched.
 	 *
 	 * @return void
 	 */
