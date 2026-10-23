@@ -1,0 +1,111 @@
+# Publica una release de GitHub con el zip del plugin al subir un tag X.Y.Z.
+#
+# - Comprueba que el tag coincide con la cabecera "Version:", la constante
+#   FGRWEB_PLUGIN_VERSION y el "Stable tag:" de README.txt.
+# - Falla si ya existe una release para ese tag.
+# - El zip se genera con git archive, por lo que respeta .gitattributes
+#   (export-ignore): bin/, dotfiles y tooling no entran.
+# - Las notas salen de la sección "= X.Y.Z =" del changelog de README.txt.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    env:
+      PLUGIN_SLUG: fgrweb-plugin
+      PLUGIN_FILE: fgrweb-plugin.php
+      VERSION_CONSTANT: FGRWEB_PLUGIN_VERSION
+      TAG: ${{ github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Comprobar que las versiones coinciden con el tag
+        run: |
+          set -euo pipefail
+
+          header=$(sed -nE 's/^[[:space:]]*\*[[:space:]]*Version:[[:space:]]*([0-9][^[:space:]]*).*$/\1/p' "$PLUGIN_FILE" | head -n1)
+          constant=$(sed -nE "s/^define\( '${VERSION_CONSTANT}', '([^']+)' \);.*$/\1/p" "$PLUGIN_FILE" | head -n1)
+          stable=$(sed -nE 's/^Stable tag:[[:space:]]*([^[:space:]]+).*$/\1/p' README.txt | head -n1)
+
+          echo "Tag:                $TAG"
+          echo "Cabecera Version:   ${header:-<no encontrada>}"
+          echo "$VERSION_CONSTANT: ${constant:-<no encontrada>}"
+          echo "Stable tag:         ${stable:-<no encontrado>}"
+
+          fail=0
+          [ "$header"   = "$TAG" ] || { echo "::error file=$PLUGIN_FILE::La cabecera 'Version:' es '${header:-<vacía>}' y el tag es '$TAG'."; fail=1; }
+          [ "$constant" = "$TAG" ] || { echo "::error file=$PLUGIN_FILE::La constante $VERSION_CONSTANT es '${constant:-<vacía>}' y el tag es '$TAG'."; fail=1; }
+          [ "$stable"   = "$TAG" ] || { echo "::error file=README.txt::El 'Stable tag:' es '${stable:-<vacío>}' y el tag es '$TAG'."; fail=1; }
+
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::Versiones no sincronizadas. No se publica nada. Corrige los ficheros, borra el tag y vuelve a crearlo."
+            exit 1
+          fi
+
+      - name: Comprobar que no existe una release para este tag
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "::error::Ya existe una release para el tag $TAG. No se modifica."
+            exit 1
+          fi
+
+      - name: Generar el zip del plugin
+        run: |
+          set -euo pipefail
+          zip_name="${PLUGIN_SLUG}-${TAG}.zip"
+          git archive --format=zip --prefix="${PLUGIN_SLUG}/" -o "$zip_name" HEAD
+
+          echo "Contenido de $zip_name:"
+          unzip -l "$zip_name"
+
+          # Seguro extra: export-ignore debe haber dejado fuera bin/ y los dotfiles.
+          if unzip -l "$zip_name" | awk '{print $4}' | grep -qE "^${PLUGIN_SLUG}/(bin/|\.)"; then
+            echo "::error::El zip contiene bin/ o dotfiles. Revisa .gitattributes (export-ignore)."
+            exit 1
+          fi
+
+          echo "ZIP_NAME=$zip_name" >> "$GITHUB_ENV"
+
+      - name: Extraer las notas del changelog
+        run: |
+          set -euo pipefail
+          awk -v tag="$TAG" '
+            $0 == "= " tag " =" { found = 1; next }
+            found && /^= [0-9]/ { exit }
+            found && /^== / { exit }
+            found { print }
+          ' README.txt | sed -e '/./,$!d' > release-notes.md
+
+          # Quita líneas en blanco finales.
+          sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' release-notes.md
+
+          if [ ! -s release-notes.md ]; then
+            echo "No se encontró la sección '= $TAG =' en README.txt. Se usan notas mínimas."
+            echo "Versión $TAG." > release-notes.md
+          fi
+
+          echo "Notas de la release:"
+          cat release-notes.md
+
+      - name: Crear la release
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" "$ZIP_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "$TAG" \
+            --notes-file release-notes.md
+          echo "Release $TAG publicada con $ZIP_NAME."
