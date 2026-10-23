@@ -84,8 +84,10 @@ function fgrweb_plugin_updater_checker() {
 	if ( ! empty( $token['github_token'] ) ) {
 		$update_checker->setAuthentication( $token['github_token'] );
 	}
-	// Check for releases.
-	$update_checker->getVcsApi()->enableReleaseAssets();
+	// Use release assets, but only .zip files (the Action uploads
+	// fgrweb-plugin-X.Y.Z.zip). With no matching asset PUC falls back to
+	// the auto-generated zipball of the release.
+	$update_checker->getVcsApi()->enableReleaseAssets( '/\.zip($|[?&#])/i' );
 }
 
 /**
