@@ -49,3 +49,4 @@ Plugins generados antes de 1.2.0 que estén en producción. Comprobar y portar:
 ## Sesiones
 
 - [2026-10-23](.claude/session-2026-10-23.md) — revisión completa, rama `seguridad` → 1.2.0 (seguridad, updater, token, script, PUC 5.7, WPCS), rama `release-action` → 1.3.0 (Action de release, README.md, prueba en repo temporal).
+- [2026-11-23](.claude/session-2026-11-23.md) — revisión de dependencias, rama `puc-6` → 1.4.0 (Plugin Update Checker 6.0).
