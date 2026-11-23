@@ -4,7 +4,7 @@ Donate link: https://fgrweb.es/
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,9 @@ Ejecuta `bin/setup-plugin.sh` en un directorio vacío. El script descarga el boi
 Las opciones `fgrweb_plugin_config`, `fgrweb_plugin_security_options` y `external_updates-fgrweb-plugin`. Al desactivar no se borra nada.
 
 == Changelog ==
+
+= 1.4.0 =
+* ⬆️ Plugin Update Checker 6.0 (requiere PHP 7.4, incluye Parsedown 1.8.0).
 
 = 1.3.0 =
 * 👷 GitHub Action que publica la release con el zip del plugin al subir un tag X.Y.Z: comprueba que cabecera, constante y Stable tag coinciden con el tag, falla si la release ya existe, genera el zip con git archive (respeta export-ignore) y toma las notas del changelog.

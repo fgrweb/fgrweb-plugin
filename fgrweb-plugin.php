@@ -15,7 +15,7 @@
  * Plugin Name:       F.GR Plugin Boilerplate
  * Plugin URI:        https://fgrweb.es
  * Description:       Custom plugin
- * Version:           1.3.0
+ * Version:           1.4.0
  * Author:            Fernando Garcia Rebolledo
  * Author URI:        https://fgrweb.es/
  * License:           GPL-2.0+
@@ -29,14 +29,14 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+use YahnisElsts\PluginUpdateChecker\v6\PucFactory;
 
 /**
  * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'FGRWEB_PLUGIN_VERSION', '1.3.0' );
+define( 'FGRWEB_PLUGIN_VERSION', '1.4.0' );
 
 /**
  * The code that runs during plugin activation.

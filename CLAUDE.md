@@ -1,6 +1,6 @@
 # F.GR Plugin Boilerplate
 
-Base de la mayoría de los plugins de F.GR Web. Estructura de WordPress Plugin Boilerplate (loader de hooks, clases admin/public/i18n), Plugin Update Checker 5.7 para actualizar desde GitHub, pestañas de ajustes **Actualizaciones** (token) y **Seguridad**. Se genera un plugin nuevo con `bin/setup-plugin.sh`, que renombra `fgrweb-plugin` / `Fgrweb_Plugin` / `FGRWEB_PLUGIN` / `fgrweb_plugin` / "Fgrweb Plugin".
+Base de la mayoría de los plugins de F.GR Web. Estructura de WordPress Plugin Boilerplate (loader de hooks, clases admin/public/i18n), Plugin Update Checker 6.0 para actualizar desde GitHub, pestañas de ajustes **Actualizaciones** (token) y **Seguridad**. Se genera un plugin nuevo con `bin/setup-plugin.sh`, que renombra `fgrweb-plugin` / `Fgrweb_Plugin` / `FGRWEB_PLUGIN` / `fgrweb_plugin` / "Fgrweb Plugin".
 
 ## Reglas de trabajo
 
@@ -44,7 +44,7 @@ Plugins generados antes de 1.2.0 que estén en producción. Comprobar y portar:
 6. Ruta del updater con `dirname(__FILE__) . '<slug>/...'`.
 7. Deactivator que borra opciones.
 8. Grupo de `settings_fields` distinto del registrado.
-9. PUC 5.6 → 5.7: sustituir carpeta tal cual.
+9. PUC 5.x → 6.0: sustituir `includes/updater-checker/` por la v6.0 y cambiar `use ...\v5\PucFactory` a `\v6\` en el fichero principal. Requiere PHP 7.4.
 
 ## Sesiones
 
